@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Câu 12 - Ẩn hiện ô nhập thông tin</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .input-group { margin-bottom: 15px; }
+        .hidden-box { display: none; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="input-group">
+        <label>Bạn có Passport không?</label><br>
+        <input type="radio" name="passport" value="yes"> Yes
+        <input type="radio" name="passport" value="no" checked> No
+        <div id="passportBox" class="hidden-box">
+            <input type="text" placeholder="Nhập số Passport...">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Bạn có Credit Card không?</label><br>
+        <input type="radio" name="creditCard" value="yes"> Yes
+        <input type="radio" name="creditCard" value="no" checked> No
+        <div id="creditCardBox" class="hidden-box">
+            <input type="text" placeholder="Nhập số Credit Card...">
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('input[name="passport"]').change(function() {
+                if ($(this).val() === 'yes') {
+                    $('#passportBox').show();
+                } else {
+                    $('#passportBox').hide();
+                }
+            });
+
+            $('input[name="creditCard"]').change(function() {
+                if ($(this).val() === 'yes') {
+                    $('#creditCardBox').show();
+                } else {
+                    $('#creditCardBox').hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
