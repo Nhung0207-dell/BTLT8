@@ -1,0 +1,4 @@
+/* CSS tùy biến bổ sung cho các hiệu ứng cuộn mượt */
+html {
+  scroll-behavior: smooth;
+}
