@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Câu 13 - Toggle Mật Khẩu</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .password-wrapper { position: relative; display: inline-block; }
+        .password-wrapper input { padding-right: 30px; }
+        .toggle-password { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="password-wrapper">
+        <input type="password" id="passwordInput" placeholder="Nhập mật khẩu">
+        <i class="fa-solid fa-eye toggle-password" id="eyeIcon"></i>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#eyeIcon').click(function() {
+                var input = $('#passwordInput');
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    input.attr('type', 'password');
+                    $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
