@@ -1,0 +1,7 @@
+/* Tùy chỉnh nhỏ thêm cho hình ảnh sản phẩm */
+.card-img-top {
+  transition: transform 0.2s ease-in-out;
+}
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}

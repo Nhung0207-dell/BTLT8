@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop phụ kiện điện thoại Tech Accessories - Giỏ hàng Vue.js 3">
+  <title>Tech Accessories - Phụ Kiện Điện Thoại</title>
+
+  <!-- Nhúng Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- 1. Nhúng Vue.js 3 CDN (BẮT BUỘC PHẢI CÓ TRƯỚC app.js) -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-light">
+
+  <div id="app">
+    <!-- HEADER & NAVIGATION -->
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+      <div class="container">
+        <a class="navbar-brand font-monospace fw-bold text-primary" href="#">
+          <i class="fa-solid fa-bolt me-2"></i>TECH ACCESSORIES
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link active" href="#">HOME</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">SHOP</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">ACCESSORIES</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">CASES</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">EARPHONES</a></li>
+          </ul>
+          
+          <!-- Nút giỏ hàng ở Header -->
+          <div class="d-flex align-items-center gap-3">
+            <a href="#cart-section" class="btn btn-primary position-relative">
+              <i class="fa-solid fa-cart-shopping me-1"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ cartCount }}
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container my-5">
+      
+      <!-- Banner Khuyến mãi -->
+      <section class="alert alert-primary text-center py-3 mb-4 rounded-3 fw-bold text-uppercase shadow-sm">
+        <i class="fa-solid fa-gift me-2"></i> Get 20% OFF ALL CASES! Limited Time Offer
+      </section>
+
+      <div class="row g-4">
+        
+        <!-- DANH SÁCH SẢN PHẨM -->
+        <section class="col-lg-8">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="fw-bold m-0">Sản Phẩm</h3>
+            <div class="w-50">
+              <input type="text" v-model="tuKhoa" class="form-control" placeholder="Tìm kiếm phụ kiện...">
+            </div>
+          </div>
+
+          <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3">
+            <article class="col" v-for="sp in danhSachLoc" :key="sp.id">
+              <div class="card h-100 border-0 shadow-sm rounded-3">
+                <img :src="sp.hinhAnh" :alt="sp.ten" class="card-img-top p-3 object-fit-contain" style="height: 160px;">
+                <div class="card-body d-flex flex-column justify-content-between text-center">
+                  <div>
+                    <h6 class="card-title fw-bold text-uppercase text-truncate">{{ sp.ten }}</h6>
+                    <p class="text-primary font-monospace fw-bold mb-2">{{ formatGia(sp.gia) }} VND</p>
+                  </div>
+                  <button @click="themVaoGio(sp)" class="btn btn-outline-primary w-100 rounded-pill">
+                    <i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <div v-if="danhSachLoc.length === 0" class="col-12 text-center text-muted py-5">
+              Không tìm thấy sản phẩm phù hợp!
+            </div>
+          </div>
+        </section>
+
+        <!-- ASIDE GIỎ HÀNG -->
+        <aside id="cart-section" class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-3 p-3">
+            <h4 class="fw-bold mb-3 border-bottom pb-2">YOUR CART</h4>
+            
+            <div v-if="cart.length === 0" class="text-center text-muted py-4">
+              <i class="fa-solid fa-basket-shopping fs-1 mb-2"></i>
+              <p>Giỏ hàng của bạn đang trống</p>
+            </div>
+
+            <div v-else>
+              <div v-for="(item, index) in cart" :key="index" class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+                <img :src="item.hinhAnh" :alt="item.ten" class="rounded" style="width: 45px; height: 45px; object-fit: cover;">
+                <div class="flex-grow-1 mx-2">
+                  <p class="m-0 fw-bold text-truncate" style="max-width: 140px;">{{ item.ten }}</p>
+                  <small class="text-muted">{{ formatGia(item.gia) }} VND x {{ item.soLuong }}</small>
+                </div>
+                <button @click="xoaKhoiGio(index)" class="btn btn-sm btn-outline-danger border-0">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center pt-2 fw-bold fs-5">
+                <span>TOTAL:</span>
+                <span class="text-primary">{{ formatGia(tongTien) }} VND</span>
+              </div>
+
+              <button class="btn btn-primary w-100 mt-3 py-2 fw-bold text-uppercase">
+                CHECKOUT
+              </button>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-light mt-5 py-4">
+      <div class="container text-center text-md-start">
+        <p class="text-center text-muted m-0 small">&copy; 2026 Tech Accessories. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Script Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- 2. Nhúng file app.js (Đã sửa đường dẫn đúng cho file nằm cùng cấp) -->
+  <script src="app.js"></script>
+</body>
+</html>
