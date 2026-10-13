@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Câu 15 - Tabs UI</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .tabs { display: flex; list-style: none; padding: 0; border-bottom: 2px solid #ccc; margin: 0; }
+        .tabs li { padding: 10px 20px; cursor: pointer; background: #e0e0e0; margin-right: 5px; border-radius: 4px 4px 0 0; }
+        .tabs li.active { background: #007bff; color: white; font-weight: bold; }
+        .tab-content { padding: 20px; border: 1px solid #ccc; border-top: none; display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+    <ul class="tabs">
+        <li class="tab-link active" data-tab="tab-1">THÔNG TIN CHÍNH</li>
+        <li class="tab-link" data-tab="tab-2">HÌNH ẢNH</li>
+        <li class="tab-link" data-tab="tab-3">SEO</li>
+    </ul>
+
+    <div id="tab-1" class="tab-content active">Nội dung Tab Thông tin chính</div>
+    <div id="tab-2" class="tab-content">Nội dung Tab Hình ảnh</div>
+    <div id="tab-3" class="tab-content">Nội dung Tab SEO</div>
+
+    <script>
+        $(document).ready(function() {
+            $('.tab-link').click(function() {
+                var tabID = $(this).attr('data-tab');
+
+                $('.tab-link').removeClass('active');
+                $('.tab-content').removeClass('active');
+
+                $(this).addClass('active');
+                $('#' + tabID).addClass('active');
+            });
+        });
+    </script>
+</body>
+</html>
