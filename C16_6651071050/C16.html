@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Câu 16 - Quản lý User</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Quản lý thông tin user</h2>
+    <div>
+        <input type="text" id="nameInput" placeholder="Name">
+        <input type="email" id="emailInput" placeholder="Email Address">
+        <input type="date" id="birthdateInput">
+        <button id="addRowBtn">Add Row</button>
+    </div>
+
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Birthdate</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br>
+    <button id="deleteRowBtn">Delete Row</button>
+
+    <script>
+        $(document).ready(function() {
+            function isValidEmail(email) {
+                var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return regex.test(email);
+            }
+
+            $('#addRowBtn').click(function() {
+                var name = $('#nameInput').val().trim();
+                var email = $('#emailInput').val().trim();
+                var birthdate = $('#birthdateInput').val();
+
+                if (!name || !email || !birthdate) {
+                    alert('Vui lòng nhập đầy đủ thông tin!');
+                    return;
+                }
+
+                if (!isValidEmail(email)) {
+                    alert('Định dạng Email không hợp lệ!');
+                    return;
+                }
+
+                var newRow = '<tr>' +
+                    '<td><input type="checkbox" class="row-checkbox"></td>' +
+                    '<td>' + name + '</td>' +
+                    '<td>' + email + '</td>' +
+                    '<td>' + birthdate + '</td>' +
+                    '</tr>';
+
+                $('#userTable tbody').append(newRow);
+
+                $('#nameInput').val('');
+                $('#emailInput').val('');
+                $('#birthdateInput').val('');
+            });
+
+            $('#deleteRowBtn').click(function() {
+                $('#userTable tbody .row-checkbox:checked').closest('tr').remove();
+            });
+        });
+    </script>
+</body>
+</html>
