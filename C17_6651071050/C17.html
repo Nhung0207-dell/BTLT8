@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Câu 17 - Accordion</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .accordion-title {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 12px;
+            width: 100%;
+            border: 1px solid #ccc;
+            outline: none;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .accordion-title.active, .accordion-title:hover { background-color: #ccc; }
+        .accordion-content {
+            padding: 0 15px;
+            display: none;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Accordion Menu</h2>
+
+    <div class="accordion-title">Mục 1: Thông tin cá nhân</div>
+    <div class="accordion-content">
+        <p>Nội dung thông tin cá nhân được hiển thị ở đây...</p>
+    </div>
+
+    <div class="accordion-title">Mục 2: Kỹ năng chuyên môn</div>
+    <div class="accordion-content">
+        <p>Nội dung danh sách các kỹ năng chuyên môn...</p>
+    </div>
+
+    <div class="accordion-title">Mục 3: Kinh nghiệm làm việc</div>
+    <div class="accordion-content">
+        <p>Nội dung mô tả quá trình kinh nghiệm làm việc...</p>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.accordion-title').click(function() {
+                if ($(this).next('.accordion-content').is(':visible')) {
+                    $(this).next('.accordion-content').slideUp();
+                    $(this).removeClass('active');
+                } else {
+                    $('.accordion-content').slideUp();
+                    $('.accordion-title').removeClass('active');
+                    $(this).next('.accordion-content').slideDown();
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
